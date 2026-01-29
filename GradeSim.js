@@ -5,10 +5,11 @@
         .blue-flow-text { background: linear-gradient(270deg, #3b82f6, #60a5fa, #93c5fd, #3b82f6); background-size: 600% 600%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: blueFlow 3s ease infinite; font-weight: 900 !important; }
         .menu-btn { cursor: pointer; padding: 5px; display: flex; flex-direction: column; gap: 4px; width: 25px; }
         .menu-btn div { height: 3px; background: white; border-radius: 2px; }
-        .nav-overlay { position: absolute; top: 50px; left: 20px; background: #1e293b; border-radius: 15px; padding: 10px; display: none; z-index: 100000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        .nav-overlay { position: absolute; top: 50px; left: 10px; background: #1e293b; border-radius: 15px; padding: 10px; display: none; z-index: 100000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155; }
         .nav-item { padding: 10px 20px; cursor: pointer; border-radius: 8px; font-size: 0.9rem; }
         .nav-item:hover { background: #334155; }
-        .stat-card { background: #1e293b; border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #334155; position: relative; margin-bottom: 15px; }
+        .stat-card { background: #1e293b; border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #334155; position: relative; margin-bottom: 15px; width: 100%; box-sizing: border-box; }
+        #noten-app-v8 * { box-sizing: border-box; }
     `;
     document.head.appendChild(style);
 
@@ -49,7 +50,7 @@
                 const spans = row.querySelectorAll('span');
                 if (spans.length >= 3) {
                     let noteText = spans[spans.length - 1].innerText.trim();
-                    let datumText = spans[0].innerText.trim(); // Datum ist meist im ersten Span
+                    let datumText = spans[0].innerText.trim(); 
                     let wert = parseNote(noteText);
                     if (wert !== null) noten.push({ 
                         thema: spans[1].innerText.trim().toLowerCase(), 
@@ -67,7 +68,7 @@
             panel.querySelector('mat-expansion-panel-header').click();
         });
         renderApp();
-    }, 100);
+    }, 150);
 
     const generatePie = (counts) => {
         let total = Object.values(counts).reduce((a, b) => a + b, 0);
@@ -109,19 +110,19 @@
         const sNoten = allValues.length > 0 ? (allValues.reduce((a,b)=>a+b,0) / allValues.length).toFixed(2) : "0.00";
         const sFaecher = faecherAnzahl > 0 ? (sumFaecher / faecherAnzahl).toFixed(2) : "0.00";
 
-        const header = `<div style="background:linear-gradient(135deg, #1e40af, #3b82f6); padding:20px; border-radius:25px; margin-bottom:20px; text-align:center;">
+        const header = `<div style="background:linear-gradient(135deg, #1e40af, #3b82f6); padding:20px; border-radius:25px; margin-bottom:20px; text-align:center; width:100%;">
             <div style="display:flex; justify-content:space-around; align-items:center;">
                 <div style="flex:1;"><div style="font-size:0.6rem; opacity:0.8;">ALLE NOTEN</div><div style="font-size:1.8rem; font-weight:900;">${sNoten}</div></div>
                 <div style="width:1px; height:30px; background:rgba(255,255,255,0.2);"></div>
                 <div style="flex:1;"><div style="font-size:0.6rem; opacity:0.8;">FÄCHER SCHNITT</div><div style="font-size:1.8rem; font-weight:900;">${sFaecher}</div></div>
             </div>
-            <button onclick="resetApp()" style="background:rgba(255,255,255,0.2); border:none; color:white; padding:5px; border-radius:8px; font-size:0.65rem; margin-top:10px; width:100%; cursor:pointer;">Reset Simulation</button>
+            <button onclick="resetApp()" style="background:rgba(255,255,255,0.2); border:none; color:white; padding:10px; border-radius:12px; font-size:0.75rem; margin-top:10px; width:100%; cursor:pointer;">Reset Simulation</button>
         </div>`;
 
-        let html = `<div style="max-width:500px; margin:auto;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        let html = `<div style="width:100%; margin:auto;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items:center;">
                 <div class="menu-btn" onclick="let m=document.getElementById('nav-menu'); m.style.display=m.style.display==='block'?'none':'block'"><div></div><div></div><div></div></div>
-                <button onclick="document.getElementById('noten-app-v8').remove()" style="background:#f43f5e; border:none; color:white; border-radius:8px; padding:2px 10px; font-weight:bold;">X</button>
+                <button onclick="document.getElementById('noten-app-v8').remove()" style="background:#f43f5e; border:none; color:white; border-radius:50%; width:30px; height:30px; font-weight:bold; display:flex; justify-content:center; align-items:center;">✕</button>
             </div>
             <div id="nav-menu" class="nav-overlay">
                 <div class="nav-item" onclick="window.setView('faecher')">📚 Fächer</div>
@@ -132,7 +133,7 @@
             let dist = { '4':0, '5':0, '6':0, '7':0, '8':0, '9':0, '10':0 };
             allValues.forEach(v => { let b=Math.floor(v); if(b<4)b=4; if(b>10)b=10; dist[b]++; });
             html += `<div class="stat-card">
-                <button onclick="window.showLines=!window.showLines; renderApp();" style="position:absolute; right:10px; top:10px; background:#334155; border:none; color:white; padding:4px; border-radius:4px; font-size:0.6rem;">Lines: ${window.showLines?'ON':'OFF'}</button>
+                <button onclick="window.showLines=!window.showLines; renderApp();" style="position:absolute; right:10px; top:10px; background:#334155; border:none; color:white; padding:6px; border-radius:6px; font-size:0.6rem;">Lines: ${window.showLines?'ON':'OFF'}</button>
                 <div style="display:flex; justify-content:center;">${generatePie(dist)}</div>
             </div>`;
         } else {
@@ -141,7 +142,6 @@
                 let s = allN.length > 0 ? (allN.reduce((a, b) => a + b.value, 0) / allN.length) : 0;
                 const isOpen = openFaecher.has(fIdx);
                 
-                // Tendenz-Berechnung
                 let mitarbeitNote = allN.find(n => n.thema.includes('mitarbeit'));
                 let tendenzHtml = "";
                 if (!isOpen && mitarbeitNote) {
@@ -153,39 +153,43 @@
                     }
                 }
 
-                html += `<div style="background:#1e293b; border-radius:18px; margin-bottom:10px; border:1px solid ${isOpen ? '#3b82f6' : '#334155'}; overflow:hidden;">
+                html += `<div style="background:#1e293b; border-radius:18px; margin-bottom:10px; border:1px solid ${isOpen ? '#3b82f6' : '#334155'}; overflow:hidden; width:100%;">
                     <div onclick="toggleFach(${fIdx})" style="padding:15px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
-                        <div style="display:flex; flex-direction:column;"><span style="font-weight:bold;">${f.fach}</span>${tendenzHtml}</div>
+                        <div style="display:flex; flex-direction:column;"><span style="font-weight:bold; font-size:0.95rem;">${f.fach}</span>${tendenzHtml}</div>
                         <span style="font-weight:900; color:${getGradeColor(s)==='SPECIAL'?'#60a5fa':getGradeColor(s)}; font-size:1.2rem;">${s>0?s.toFixed(2):'---'}</span>
                     </div>
                     <div style="display:${isOpen ? 'block' : 'none'}; padding:0 15px 15px 15px; background:#0f172a;">
                         ${allN.map((n, ni) => n.sim ? `
-                            <div style="display:flex; align-items:center; padding:8px 0; border-bottom:1px solid #2d3a4f; font-size:0.8rem; color:#2dd4bf;">
+                            <div style="display:flex; align-items:center; padding:10px 0; border-bottom:1px solid #2d3a4f; font-size:0.85rem; color:#2dd4bf;">
                                 <span style="flex:1;">★ Simuliert:</span>
                                 <b style="margin-right:15px;">${n.label}</b>
-                                <span onclick="event.stopPropagation(); removeNote(${fIdx}, ${ni}, true)" style="color:#ef4444; cursor:pointer; font-weight:bold; font-size:1.1rem;">✕</span>
+                                <span onclick="event.stopPropagation(); removeNote(${fIdx}, ${ni}, true)" style="color:#ef4444; cursor:pointer; font-weight:bold; font-size:1.2rem; padding: 5px;">✕</span>
                             </div>` : `
-                            <div style="display:flex; align-items:center; padding:8px 0; border-bottom:1px solid #1e293b; font-size:0.8rem;">
+                            <div style="display:flex; align-items:center; padding:10px 0; border-bottom:1px solid #1e293b; font-size:0.85rem;">
                                 <span style="flex:1; color:#94a3b8; font-size:0.75rem;">${n.thema}</span>
                                 <span style="color:#475569; font-size:0.65rem; margin-right:10px;">${n.datum || ''}</span>
                                 <b style="margin-right:15px; color:${getGradeColor(n.value)==='SPECIAL'?'#60a5fa':getGradeColor(n.value)}">${n.label}</b>
-                                <span onclick="event.stopPropagation(); removeNote(${fIdx}, ${ni}, false)" style="color:#f43f5e; cursor:pointer; font-weight:bold; font-size:1.1rem;">✕</span>
+                                <span onclick="event.stopPropagation(); removeNote(${fIdx}, ${ni}, false)" style="color:#f43f5e; cursor:pointer; font-weight:bold; font-size:1.2rem; padding: 5px;">✕</span>
                             </div>`).join('')}
-                        <div style="display:flex; gap:8px; margin-top:12px;">
-                            <input type="text" id="input-${fIdx}" value="${window.lastSimNote}" placeholder="Note..." oninput="window.lastSimNote=this.value" style="flex:1; background:#1e293b; border:1px solid #334155; color:white; padding:8px; border-radius:8px; outline:none;">
-                            <button onclick="addNote(${fIdx})" style="background:#3b82f6; border:none; color:white; padding:0 15px; border-radius:8px; cursor:pointer;">+</button>
+                        <div style="display:flex; gap:8px; margin-top:15px;">
+                            <input type="text" id="input-${fIdx}" value="${window.lastSimNote}" placeholder="Note..." oninput="window.lastSimNote=this.value" style="flex:1; background:#1e293b; border:1px solid #334155; color:white; padding:12px; border-radius:10px; outline:none; font-size:1rem;">
+                            <button onclick="addNote(${fIdx})" style="background:#3b82f6; border:none; color:white; padding:0 20px; border-radius:10px; cursor:pointer; font-weight:bold;">+</button>
                         </div>
-                        <div style="margin-top:10px; display:flex; gap:5px;">
-                            <input type="number" id="res-${fIdx}" placeholder="Anz." style="width:50px; background:#0f172a; border:1px solid #334155; color:white; border-radius:5px; padding:5px; font-size:0.7rem;">
-                            <button onclick="doRescue(${fIdx})" style="flex:1; background:#6366f1; border:none; color:white; border-radius:5px; font-size:0.7rem; cursor:pointer;">🎯 Rettungs-Schnitt berechnen</button>
+                        <div style="margin-top:12px; display:flex; gap:8px;">
+                            <input type="number" id="res-${fIdx}" placeholder="Anz." style="width:60px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px; padding:10px; font-size:0.8rem;">
+                            <button onclick="doRescue(${fIdx})" style="flex:1; background:#6366f1; border:none; color:white; border-radius:8px; font-size:0.8rem; cursor:pointer; font-weight:bold;">🎯 Rettungs-Schnitt</button>
                         </div>
-                        ${rescueResults[fIdx] ? `<div style="margin-top:5px; font-size:0.7rem; text-align:center; color:${rescueResults[fIdx].color}">${rescueResults[fIdx].msg}</div>` : ''}
+                        ${rescueResults[fIdx] ? `<div style="margin-top:8px; font-size:0.8rem; text-align:center; color:${rescueResults[fIdx].color}; font-weight:bold;">${rescueResults[fIdx].msg}</div>` : ''}
                     </div>
                 </div>`;
             });
         }
         const container = document.getElementById('noten-app-v8') || document.createElement('div');
-        if(!container.id) { container.id = "noten-app-v8"; container.style = "position:fixed; top:0; left:0; width:100%; height:100%; background:#020617; color:white; z-index:99999; padding:15px; overflow-y:auto; font-family:sans-serif;"; document.body.appendChild(container); }
+        if(!container.id) { 
+            container.id = "noten-app-v8"; 
+            container.style = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:#020617; color:white; z-index:2147483647; padding:15px; overflow-y:auto; font-family:sans-serif; box-sizing:border-box;"; 
+            document.body.appendChild(container); 
+        }
         container.innerHTML = html;
     };
 
