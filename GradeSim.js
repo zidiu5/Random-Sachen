@@ -41,7 +41,6 @@
         return '#f43f5e';
     };
 
-    // STABILER DATEN-SCAN
     console.log("Masterpiece v8: Scanne Daten...");
     document.querySelectorAll('mat-expansion-panel-header').forEach(h => h.click());
 
@@ -207,7 +206,7 @@
         if (needed > 10) {
             rescueResults[idx] = {msg: `Unmöglich 💀 (Schnitt ${needed.toFixed(2)} nötig)`, color: "#f43f5e"};
         } else if (needed <= 4) {
-            rescueResults[idx] = {msg: `Easy! Schon mit einer 4.0 erreicht ✅`, color: "#2dd4bf"};
+            rescueResults[idx] = {msg: `Easy! Schon erreicht ✅`, color: "#2dd4bf"};
         } else {
             rescueResults[idx] = {msg: `${count}x Note ${needed.toFixed(2)} für Ziel ${target.toFixed(1)}`, color: "#fbbf24"};
         }
